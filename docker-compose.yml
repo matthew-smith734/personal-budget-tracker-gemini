@@ -1,0 +1,20 @@
+services:
+  app:
+    build: .
+    container_name: budget-tracker
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      # Mount a host directory (ZFS mountpoint) so the SQLite DB persists.
+      # Change the left-hand path to your ZFS dataset mountpoint, e.g.:
+      #   /mnt/tank/budget-tracker/data:/data
+      - budget-data:/data
+    environment:
+      - NODE_ENV=production
+      - DATA_DIR=/data
+      - PORT=3000
+
+volumes:
+  budget-data:
+    driver: local
