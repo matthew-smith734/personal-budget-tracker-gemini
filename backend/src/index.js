@@ -3,6 +3,8 @@ const cors = require('cors');
 const path = require('path');
 const { rateLimit } = require('express-rate-limit');
 
+const accountsRouter = require('./routes/accounts');
+const envelopesRouter = require('./routes/envelopes');
 const transactionsRouter = require('./routes/transactions');
 
 const app = express();
@@ -29,6 +31,8 @@ const staticLimiter = rateLimit({
 
 // API routes
 app.use('/api', apiLimiter);
+app.use('/api/accounts', accountsRouter);
+app.use('/api/envelopes', envelopesRouter);
 app.use('/api/transactions', transactionsRouter);
 
 // Serve React frontend static build in production
