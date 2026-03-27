@@ -1,0 +1,21 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.app-header h1 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #16213e;
+}
+
+.status {
+  text-align: center;
+  color: #555;
+  padding: 1rem;
+}
+
+.status.error {
+  color: #c0392b;
+}
