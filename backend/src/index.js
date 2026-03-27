@@ -19,6 +19,14 @@ const apiLimiter = rateLimit({
   legacyHeaders: false,
 });
 
+// Rate-limit static/fallback routes: 300 requests per minute per IP
+const staticLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 300,
+  standardHeaders: 'draft-8',
+  legacyHeaders: false,
+});
+
 // API routes
 app.use('/api', apiLimiter);
 app.use('/api/transactions', transactionsRouter);
@@ -28,7 +36,7 @@ const FRONTEND_DIST = path.join(__dirname, '..', '..', 'frontend', 'dist');
 app.use(express.static(FRONTEND_DIST));
 
 // Fallback: serve index.html for client-side routing
-app.get('*', (req, res) => {
+app.get('*', staticLimiter, (req, res) => {
   res.sendFile(path.join(FRONTEND_DIST, 'index.html'));
 });
 
